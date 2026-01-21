@@ -7,7 +7,9 @@ DES sử dụng một khóa 56 bit để mã hóa và giải mã. Tuy nhiên th�
 Cho nên chính vì điểm yếu đó mà DES đã có ảnh hướng lớn đến sự phát triển của thuật toán mã hóa nâng cao hơn là **AES**.
 
 Bây giờ ta sẽ tìm hiểu sơ về cơ chế mã hóa DES :
-Hãy nhìn vào hình vẽ này : ![image](https://hackmd.io/_uploads/ByZW9dmv1e.png)
+Hãy nhìn vào hình vẽ này : 
+
+![image](https://hackmd.io/_uploads/ByZW9dmv1e.png)
 
 Giải thích sơ qua cho mọi người dễ hình dung : 
 - Cũng giống như AES, DES sẽ yêu cầu về độ dài văn bản là $64bits$ để mã hóa. 
@@ -22,16 +24,24 @@ Từ sơ đồ trên, ta sẽ tìm hiểu về IP, FP, Hộp F cũng như là th
 **[IP và FP](https://en.wikipedia.org/wiki/DES_supplementary_material)** (Initial and Final permutation) là 2 phép hoán vị chuỗi dữ liệu DES. Trong quá trình mã hóa, IP sẽ được thực hiện trước FP (giải mã thì ngược lại). 
 
 IP có cách hoán vị như sau : 
+
+<img width="750" height="411" alt="image" src="https://github.com/user-attachments/assets/83721ca0-3bee-4120-9f37-6cf67149fbc1" />
+
 ![image](https://hackmd.io/_uploads/HJau4FXvJg.png)
 >Tức là các bit trong chuỗi 64bits ban đầu sẽ được dịch chuyển đến vị trí mới 
 
-Hay có thể hiểu ở bảng sau : ![{6C38FCA5-DF71-443E-A6AC-6C3BD59398A7}](https://hackmd.io/_uploads/Hk_C4KXvyl.png)
+Hay có thể hiểu ở bảng sau :
+
+![{6C38FCA5-DF71-443E-A6AC-6C3BD59398A7}](https://hackmd.io/_uploads/Hk_C4KXvyl.png)
 > Tức là đầu ra sau quá trình IP sẽ là một chuỗi bits mới với bit đầu tiên là bit thứ 58 trong Plaintext, bit thứ 2 là bit ở vị trí thứ 50 trong Plaintext,... Cứ như thế cho đến bit cuối cùng.
 
-Tương tự ta cũng có cách hoán vị của FP như sau : 
+Tương tự ta cũng có cách hoán vị của FP như sau :
+
 ![image](https://hackmd.io/_uploads/BkCsFFQvyl.png)
 
-Dễ hiểu hơn thì : ![{0904C27A-EB73-4D70-A98C-8E9F99FF6A66}](https://hackmd.io/_uploads/SJOAKYXPJx.png)
+Dễ hiểu hơn thì :
+
+![{0904C27A-EB73-4D70-A98C-8E9F99FF6A66}](https://hackmd.io/_uploads/SJOAKYXPJx.png)
 > Ở đây FP còn có thể hiểu là ngược lại của IP, kí hiệu là $IP^{-1}$
 
 
@@ -39,15 +49,20 @@ Dễ hiểu hơn thì : ![{0904C27A-EB73-4D70-A98C-8E9F99FF6A66}](https://hackmd
 ### Hộp F (hàm Feistel)
 Trong sơ đồ mã hóa bên trên, hộp F của chúng ta sẽ lấy 2 giá trị đầu vào là $R_i$ có 32bits và khóa $K_i$ có 48bits cho ra kết quả là $F(R_i, K_i)$.
 
-Cụ thể ở hình vẽ này : ![image](https://hackmd.io/_uploads/BkcbntQPke.png)
+Cụ thể ở hình vẽ này : 
+
+![image](https://hackmd.io/_uploads/BkcbntQPke.png)
 
 Hàm F sẽ có 4 giai đoạn : 
 - **Mở rộng** : 32 bit đầu vào được mở rộng thành 48 bit sử dụng thuật toán hoán vị mở rộng (expansion permutation) với việc nhân đôi một số bit. Giai đoạn này được ký hiệu là E trong sơ đồ.
 
-Đây là cách mà E hoạt động : 
+Đây là cách mà E hoạt động :
+
 ![image](https://hackmd.io/_uploads/SyQ5aF7wJx.png)
 
-Cụ thể hơn ở bảng này : ![{1578F13D-729E-448B-9355-06A97F1B5752}](https://hackmd.io/_uploads/SkAi6tQw1l.png)
+Cụ thể hơn ở bảng này :
+
+![{1578F13D-729E-448B-9355-06A97F1B5752}](https://hackmd.io/_uploads/SkAi6tQw1l.png)
 
 - **Trộn khóa** : 48 bit thu được sau quá trình mở rộng được XOR với khóa con. Mười sáu khóa con 48 bit được tạo ra từ khóa chính 56 bit theo một chu trình tạo khóa con (key schedule) sẽ được nói cụ thể ở phần sau.
 
@@ -59,9 +74,11 @@ Dựa vào bảng trên ta có thể suy ra giá trị cần tìm là 3, hay mã
 
 - **Hoán vị** : Cuối cùng, 32 bit thu được sau S-box (từ 48bits cắt bớt đi $2 \times 8 = 16 bits$ còn 32bits) sẽ được sắp xếp lại theo một thứ tự cho trước (còn gọi là P-box).
     - P-box cũng chỉ là phép hoán vị theo quy luật : ![image](https://hackmd.io/_uploads/SknONcQw1x.png)
-Cụ thể : ![image](https://hackmd.io/_uploads/B1N94qmvJx.png)
+Cụ thể :
+![image](https://hackmd.io/_uploads/B1N94qmvJx.png)
 
-Và đó chính là cách mà hàm F hoạt động. Sau khi trải qua một quá trình mã hóa như vậy sẽ cho ta 2 giá trị mới là $L_i$ và $R_i$ và **được sắp xếp** theo công thức : 
+Và đó chính là cách mà hàm F hoạt động. Sau khi trải qua một quá trình mã hóa như vậy sẽ cho ta 2 giá trị mới là $L_i$ và $R_i$ và **được sắp xếp** theo công thức :
+
 $$
 L_i = R_{i-1} , R_i = L_{i-1} \oplus F(R_{i-1}, K_i)
 $$
@@ -71,27 +88,34 @@ $$
 ### Thuật toán sinh khóa DES
 Như đã nói, DES sẽ sử dụng khóa đầu vào là 64bits. Tuy nhiên, có 8bits sẽ bị loại bỏ chỉ còn 56bits được chọn để mở rộng khóa mã hóa. 
 
-Mô tả ở hình vẽ này : ![image](https://hackmd.io/_uploads/SJ1qOqmPyl.png)
+Mô tả ở hình vẽ này :
+
+![image](https://hackmd.io/_uploads/SJ1qOqmPyl.png)
 
 Giải thích chi tiết : 
-- Đầu tiên khóa 64bits sẽ được đi vào khối $PC1$ (Permuted Choice 1). Khối này có nhiệm vụ chọn ra 56bits để sinh khóa, bỏ đi 8 bits theo phép hoán vị sau : 
+- Đầu tiên khóa 64bits sẽ được đi vào khối $PC1$ (Permuted Choice 1). Khối này có nhiệm vụ chọn ra 56bits để sinh khóa, bỏ đi 8 bits theo phép hoán vị sau :
+
 ![image](https://hackmd.io/_uploads/HJFLFcmvkx.png)
 
-Cụ thể : 
+Cụ thể :
+
 ![{33A9901B-BF27-4334-964C-29FB510A3B38}](https://hackmd.io/_uploads/SJ1_KqmDyg.png)
 > Để ý thấy thì ta sẽ không có các bit : 8, 16, 24, 32, 40, 48, 56, 64. Vì chúng được chỉ định để sử dụng làm bit chẵn lẻ.
 - Sau khi chọn xong khóa mới 56bits thì lúc này ta chia nó ra làm 2 phần bằng nhau (= 28bits), rồi sau đó sẽ tiến hành dịch vòng trái bit (dấu $<<<$ trong sơ đồ. Và sau đó, 2 phần này sẽ được đưa vào khối $PC2$ (Permuted Choice 2) rút gọn từ 56bits xuống 48bits để tạo ra khóa.
 > Lưu ý : Dịch bit sẽ khác nhau ở mỗi chu trình. Ở chu trình 1,2,9,16 sẽ dịch 1 bit, còn lại thì sẽ dịch 2 bit.
 
-$PC2$ hoán vị như sau : 
+$PC2$ hoán vị như sau :
+
 ![image](https://hackmd.io/_uploads/r1aMDnND1e.png)
 
-Cụ thể : ![{461A76B4-D2D3-4C22-87A1-E1D3CF70B17A}](https://hackmd.io/_uploads/rkqEw24Pyx.png)
+Cụ thể :
+
+![{461A76B4-D2D3-4C22-87A1-E1D3CF70B17A}](https://hackmd.io/_uploads/rkqEw24Pyx.png)
 > $PC2$ sẽ bỏ qua các bit 9, 18, 22, 25, 35, 38, 43, 54.
 
 
 ### Ví dụ về Code DES
-```python=
+```python
 #Khai báo các thư viện cần thiết cho DES
 from Crypto.Cipher import DES
 from Crypto.Util.Padding import pad, unpad
@@ -119,7 +143,8 @@ print(pt)
 
 Chúng ta biết rằng, nếu mã hóa DES 1 lần thì sẽ rất dễ bị phá do DES chỉ xài khóa có độ dài 56bits, vì vậy, Double DES ra đời nhằm mục đích khắc phục hạn chế này bằng cách sử dụng hai lần mã hóa DES, nhưng không thực sự cải thiện đáng kể về độ bảo mật.
 
-Cách 2DES hoạt động : 
+Cách 2DES hoạt động :
+
 ![image](https://hackmd.io/_uploads/rkiNj3Vw1g.png)
 
 - Văn bản gốc $P$ sẽ được mã hóa DES lần một với khóa đầu tiên $K_1$ tạo thành văn bản trung gian $X$. 
@@ -138,19 +163,25 @@ Nhìn an toàn là thế, tuy nhiên 2DES có điểm yếu là có thể bị t
 
 Cũng giống như 2DES, chỉ khác là sẽ mã hóa thêm một lần nữa. Có hai chế độ phổ biến của 3DES: **EDE (Encrypt-Decrypt-Encrypt)** và **EEE (Encrypt-Encrypt-Encrypt)**.
 
-Hình vẽ minh họa : ![image](https://hackmd.io/_uploads/Sy6MyTEDkg.png)
+Hình vẽ minh họa :
+
+![image](https://hackmd.io/_uploads/Sy6MyTEDkg.png)
 
 Cách mã hóa như sau : 
-- Nếu ta chọn chế độ **EEE** thì nó cũng sẽ tương tự như 2DES, chỉ khác là sẽ mã hóa thêm lần thứ ba với khóa $K_3$ vậy thôi. Công thức : 
+- Nếu ta chọn chế độ **EEE** thì nó cũng sẽ tương tự như 2DES, chỉ khác là sẽ mã hóa thêm lần thứ ba với khóa $K_3$ vậy thôi. Công thức :
+
 $$
 C = E_{K_3}(E_{K_2}(E_{K_1}(P)))
 $$
 
 - Nếu ta chọn chế độ **EDE** thì sẽ hơi khác ở quy trình thứ 2, là ta sẽ giải mã văn bản đã được mã hóa ở lần thứ nhất bằng khóa $K_2$. Tất nhiên là nó sẽ chẳng sao cả vì 2 khóa là khác nhau, nên văn bản được giải mã ở quy trình thứ 2 sẽ chỉ là một loại văn bản không có nghĩa. Công thức :-1: 
+
 $$
 C = E_{K_3}(D_{K_2}(E_{K_1}(P)))
 $$
+
 Và giải mã ta chỉ cần làm ngược lại : 
+
 $$
 P = D_{K_1}(E_{K_2}(D_{K_3}(C)))
 $$
@@ -158,6 +189,9 @@ $$
 Chắc chắn một điều rằng chế độ **EDE** sẽ được ưa chuộng hơn vì nó có bước giải mã ở giữa, làm cho kẻ tấn công cũng sẽ mất thời gian để phá. 
 
 Hãy chắc chắn rằng, khi sử dụng 2DES hoặc 3DES thì các khóa phải khác nhau. Nếu chỉ sử dụng duy nhất một khóa đễ mã hóa 2 hoặc 3 lần thì chắc chắn sẽ không an toàn. Nó sẽ chẳng khác gì DES bình thường, chả qua là tốn thời gian để giải mã thôi.
+
+
+
 # AES
 ## Khái niệm và cách hoạt động
 ### Định nghĩa
@@ -183,17 +217,21 @@ Khi mã hóa văn bản gốc bằng AES thì ta phải trải qua các bước 
     - **Round** : Đây là một quá trình mã hóa gồm 10 vòng, trong đó có 9 vòng chính và 1 vòng cuối cùng. Với mỗi một vòng, văn bản sẽ được mã hóa thông qua các hàm : **AddRoundKey**, **Subbytes**, **ShiftRow**, **MixColumns**. Đặc biệt, ở vòng mã hóa cuối cùng không có bước **MixColumns**.
 > Có một điều là số vòng mã hóa AES cũng sẽ phụ thuộc vào loại khóa mà bạn chọn. Ví dụ khi chọn khóa **AES-128** thì số vòng mã hóa sẽ là $10$. Tuy nhiên nếu chọn khóa **AES-192** hoặc **AES-256** thì số vòng mã hóa sẽ là $12$ và $14$.
 
-Minh họa ở hình vẽ này : ![image](https://hackmd.io/_uploads/rJgNUU8Lke.png)
+Minh họa ở hình vẽ này :
+
+![image](https://hackmd.io/_uploads/rJgNUU8Lke.png)
 
 
 
 Chúng ta sẽ đi tìm hiểu về các vòng mã hóa AES : 
 #### AddRoundKey
-Tại đây, khối văn bản gốc và khối khóa sẽ được $\oplus$ với nhau : 
+Tại đây, khối văn bản gốc và khối khóa sẽ được $\oplus$ với nhau :
+
 ![image](https://hackmd.io/_uploads/r1h2LUILkl.png)
 
 Ví dụ : 
 Ta có một khối văn bản như sau (các dữ liệu trong khối thuộc **base16**) :
+
 $$
 \begin{bmatrix}
 1a & 2b & 3c & 4d \\
@@ -204,6 +242,7 @@ da & eb & fc & 0a
 $$
 
 Và ta có một khối khóa : 
+
 $$
 \begin{bmatrix}
 0f & 1e & 2d & 3c \\
@@ -213,7 +252,8 @@ c3 & d2 & e1 & f0
 \end{bmatrix}_{\text{Key}}
 $$
 
-Và giờ ta sẽ XOR $\oplus$ từng phần tử của `khối Plain` với `khối Key`. Và đây là kết quả : 
+Và giờ ta sẽ XOR $\oplus$ từng phần tử của `khối Plain` với `khối Key`. Và đây là kết quả :
+
 $$
 \begin{bmatrix}
 15 & 35 & 11 & 71 \\
@@ -227,12 +267,14 @@ $$
 
 #### SubBytes (Substitude bytes)
 Ở bước này sẽ thay thế các giá trị hex trong khối thành các giá trị hex mới trong bảng **Rijndael S-box**.
+
 ![S_box Table AES](https://hackmd.io/_uploads/ryVHT8LIyl.png)
 
 ![image](https://hackmd.io/_uploads/SJpIpU88ke.png)
 
 Ví dụ : 
-Ta sẽ **SubBytes** `khối Ans` hồi nãy : 
+Ta sẽ **SubBytes** `khối Ans` hồi nãy :
+
 $$
 \begin{bmatrix}
 15 & 35 & 11 & 71 \\
@@ -246,7 +288,8 @@ Với :
 - Phần tử $a_{11} = 15$, ta sẽ đối chiếu lên bảng S-box với cách tra là : dòng 1, cột 5. Kết quả là $59$.
 - Hay phần tử $a_{44} = fa$, ta sẽ đối chiếu lên bảng S-box với cách tra là : dòng f, cột a. Kết quả là $2d$. 
 
-Tương tự với các phần tử còn lại, ta thu được khối mới là: 
+Tương tự với các phần tử còn lại, ta thu được khối mới là:
+
 $$
 \begin{bmatrix}
 59 & 96 & 82 & a3 \\
@@ -263,11 +306,13 @@ $$
 - Hàng 1 : Không đổi
 - Hàng 2 : Dịch sang trái 1 phần tử 
 - Hàng 3 : Dịch sang trái 2 phần tử 
-- Hàng 4 : Dịch sang trái 3 phần tử 
+- Hàng 4 : Dịch sang trái 3 phần tử
+
 ![image](https://hackmd.io/_uploads/B1CeHPU8kg.png)
 
 Ví dụ : 
-Ta sẽ **ShiftRow** khối đã **SubBytes** hồi nãy : 
+Ta sẽ **ShiftRow** khối đã **SubBytes** hồi nãy :
+
 $$
 \begin{bmatrix}
 59 & 96 & 82 & a3 \\
@@ -279,11 +324,13 @@ $$
 
 Xét hàng : $\begin{bmatrix} 59 & 96 & 82 & a3 \end{bmatrix}$ : Hàng này là hàng đầu tiên nên không thay đổi.
 Với hàng : $\begin{bmatrix} 59 & 96 & 7d & 0d \end{bmatrix}$ : Dịch trái 1 phần tử, ta có hàng mới là:
+
 $$
 \begin{bmatrix} 96 & 7d & 0d & 59 \end{bmatrix}
 $$  
 
-Làm tương tự với 2 hàng cuối, ta sẽ có khối mới : 
+Làm tương tự với 2 hàng cuối, ta sẽ có khối mới :
+
 $$
 \begin{bmatrix}
 59 & 96 & 82 & a3 \\
@@ -296,7 +343,8 @@ $$
 
 
 #### MixColumns 
-Ở bước này, ta sẽ nhân từng cột của khối với khối **c(x)** để ra một khối mới. Khối **c(x)** được định nghĩa như sau : 
+Ở bước này, ta sẽ nhân từng cột của khối với khối **c(x)** để ra một khối mới. Khối **c(x)** được định nghĩa như sau :
+
 $$
 \begin{bmatrix}
 02 & 03 & 01 & 01 \\
@@ -305,10 +353,12 @@ $$
 03 & 01 & 01 & 02 \\
 \end{bmatrix}_{\text{c(x)}}
 $$
+
 Chi tiết hơn thì bạn có thể xem ở đây : **[c(x) MixColumns](https://en.wikipedia.org/wiki/Rijndael_MixColumns)**
 
 Ví dụ : 
 Ta sẽ **MixColumns** khối **ShiftRow** bằng cách nhân từng cột của nó với khối **c(x)**
+
 $$
 \begin{bmatrix}
 02 & 03 & 01 & 01 \\
@@ -397,7 +447,8 @@ f6 \\
 \end{bmatrix}
 $$
 
-Như vậy, ta sẽ có khối mới : 
+Như vậy, ta sẽ có khối mới :
+
 $$
 \begin{bmatrix}
 ae & 35 & 8a & 80 \\
@@ -435,7 +486,8 @@ Chia khóa đó ra làm 4 phần có độ dài là 4bytes :
 Ta sẽ tạo ra khóa thứ nhất từ khóa ban đầu **(khóa cho vòng 1)**
 Đặt **khóa 1** có dạng là : `w4w5w6w7`
 
-Để có được 4 bytes đầu tiên (w4) ta có công thức sau : 
+Để có được 4 bytes đầu tiên (w4) ta có công thức sau :
+
 $$
 w4 = w0 \oplus g(w3)
 $$
@@ -455,7 +507,8 @@ Ta có : w3 = `628bd51d`
 Như vậy ta có $g(w3)$ $=$ `3c03a4aa`
 => $w4$ = `e2912e9a` $\oplus$ `3c03a4aa` = `de928a30`
 
-Để tính $w5$, $w6$, $w7$ thì ta sẽ tính dựa trên công thức: 
+Để tính $w5$, $w6$, $w7$ thì ta sẽ tính dựa trên công thức:
+
 $$
 w_i = w_{i - 1} \oplus w_{i - 4}
 $$
@@ -470,7 +523,8 @@ Từ đây ta có :
 
 Đó là cách để sinh khóa mới từ khóa ban đầu. Để sinh khóa cho vòng 2, ta sẽ sử dụng khóa $key_1$ biến đổi theo quá trình trên là sẽ ra khóa $key_2$. Cứ như thế cho đến khóa cho vòng cuối cùng.
 
-Hình vẽ minh họa : 
+Hình vẽ minh họa :
+
 ![{ADB6B840-30FA-4A3E-94C3-3C28E42D63F7}](https://hackmd.io/_uploads/BypYEfFI1g.png)
 
 
@@ -594,7 +648,7 @@ Khác với CBC, việc giải mã PCBC với IV không chính xác sẽ làm h�
 Ví dụ : Challenge **AESOS - KCSC Recruitment 2025** : 
 
 `chal.py` : 
-```python=
+```python
 from Crypto.Util.number import *
 from Crypto.Util.Padding import *
 from aes import *
@@ -637,7 +691,7 @@ while True:
         exit()
 ```
 ::: spoiler AES_Source code
-```python=
+```python
 #!/usr/bin/env python3
 """
 This is an exercise in secure symmetric-key encryption, implemented in pure
