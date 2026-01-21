@@ -9,7 +9,7 @@ Cho nên chính vì điểm yếu đó mà DES đã có ảnh hướng lớn đ�
 Bây giờ ta sẽ tìm hiểu sơ về cơ chế mã hóa DES :
 Hãy nhìn vào hình vẽ này : 
 
-![image](https://hackmd.io/_uploads/ByZW9dmv1e.png)
+<img width="368" height="994" alt="{94E4537C-7EA5-4372-9D7D-2FEA8AFE8012}" src="https://github.com/user-attachments/assets/511ee927-8e6b-4bfe-9c3c-ca58a4b4c4b4" />
 
 Giải thích sơ qua cho mọi người dễ hình dung : 
 - Cũng giống như AES, DES sẽ yêu cầu về độ dài văn bản là $64bits$ để mã hóa. 
@@ -27,7 +27,6 @@ IP có cách hoán vị như sau :
 
 <img width="750" height="411" alt="image" src="https://github.com/user-attachments/assets/83721ca0-3bee-4120-9f37-6cf67149fbc1" />
 
-![image](https://hackmd.io/_uploads/HJau4FXvJg.png)
 >Tức là các bit trong chuỗi 64bits ban đầu sẽ được dịch chuyển đến vị trí mới 
 
 Hay có thể hiểu ở bảng sau :
