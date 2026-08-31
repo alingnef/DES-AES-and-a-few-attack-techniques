@@ -46,7 +46,7 @@ Dễ hiểu hơn thì :
 
 
 ### Hộp F (hàm Feistel)
-Trong sơ đồ mã hóa bên trên, hộp F của chúng ta sẽ lấy 2 giá trị đầu vào là $R_i$ có 32bits và khóa $K_i$ có 48bits cho ra kết quả là $F(R_i, K_i)$.
+Trong sơ đồ mã hóa bên trên, hộp F của chúng ta sẽ lấy 2 giá trị đầu vào là $R_i$ có 32bits và khóa $K_i$ có 48 bits cho ra kết quả là $F(R_i, K_i)$.
 
 Cụ thể ở hình vẽ này : 
 
@@ -72,9 +72,12 @@ Cụ thể hơn ở bảng này :
 Dựa vào bảng trên ta có thể suy ra giá trị cần tìm là 3, hay mã nhị phân của nó là 0011. Cứ như thế cho 8 phần, mỗi một phần là một bảng S-box riêng, không giống nhau. Các bạn có thể tra khảo bảng **[S-box ở đây](https://en.wikipedia.org/wiki/DES_supplementary_material#Substitution_boxes_(S-boxes))** 
 
 - **Hoán vị** : Cuối cùng, 32 bit thu được sau S-box (từ 48bits cắt bớt đi $2 \times 8 = 16 bits$ còn 32bits) sẽ được sắp xếp lại theo một thứ tự cho trước (còn gọi là P-box).
-    - P-box cũng chỉ là phép hoán vị theo quy luật : ![image](https://hackmd.io/_uploads/SknONcQw1x.png)
-Cụ thể :
-![image](https://hackmd.io/_uploads/B1N94qmvJx.png)
+    - P-box cũng chỉ là phép hoán vị theo quy luật :
+
+      ![image](https://hackmd.io/_uploads/SknONcQw1x.png)
+
+	- Cụ thể :
+	  ![image](https://hackmd.io/_uploads/B1N94qmvJx.png)
 
 Và đó chính là cách mà hàm F hoạt động. Sau khi trải qua một quá trình mã hóa như vậy sẽ cho ta 2 giá trị mới là $L_i$ và $R_i$ và **được sắp xếp** theo công thức :
 
@@ -164,7 +167,7 @@ Cũng giống như 2DES, chỉ khác là sẽ mã hóa thêm một lần nữa. 
 
 Hình vẽ minh họa :
 
-![image](https://hackmd.io/_uploads/Sy6MyTEDkg.png)
+<img width="1044" height="991" alt="image" src="https://github.com/user-attachments/assets/f5b69e7a-3862-497c-b4ec-dcbb8e6a15fc" />
 
 Cách mã hóa như sau : 
 - Nếu ta chọn chế độ **EEE** thì nó cũng sẽ tương tự như 2DES, chỉ khác là sẽ mã hóa thêm lần thứ ba với khóa $K_3$ vậy thôi. Công thức :
@@ -226,7 +229,7 @@ Chúng ta sẽ đi tìm hiểu về các vòng mã hóa AES :
 #### AddRoundKey
 Tại đây, khối văn bản gốc và khối khóa sẽ được $\oplus$ với nhau :
 
-![image](https://hackmd.io/_uploads/r1h2LUILkl.png)
+<img width="638" height="498" alt="image" src="https://github.com/user-attachments/assets/bc368c9d-4c05-4c13-a69b-a8229568bace" />
 
 Ví dụ : 
 Ta có một khối văn bản như sau (các dữ liệu trong khối thuộc **base16**) :
@@ -269,7 +272,7 @@ $$
 
 ![S_box Table AES](https://hackmd.io/_uploads/ryVHT8LIyl.png)
 
-![image](https://hackmd.io/_uploads/SJpIpU88ke.png)
+<img width="1000" height="520" alt="image" src="https://github.com/user-attachments/assets/ab3827ef-a99a-4eee-8a74-8f0620b60275" />
 
 Ví dụ : 
 Ta sẽ **SubBytes** `khối Ans` hồi nãy :
@@ -307,7 +310,7 @@ $$
 - Hàng 3 : Dịch sang trái 2 phần tử 
 - Hàng 4 : Dịch sang trái 3 phần tử
 
-![image](https://hackmd.io/_uploads/B1CeHPU8kg.png)
+<img width="1907" height="706" alt="{C8BBBD5C-1880-4E19-8421-3DBD787EE4C7}" src="https://github.com/user-attachments/assets/65861f84-560b-44dc-b081-597f1643c23b" />
 
 Ví dụ : 
 Ta sẽ **ShiftRow** khối đã **SubBytes** hồi nãy :
@@ -538,7 +541,8 @@ Hình vẽ minh họa :
 Cách để mã hóa là ta sẽ chia văn bản gốc thành những khối cố định (thường là 64 hoặc 128 bit, tùy thuộc vào thuật toán mã hóa (như AES hoặc DES), sau đó ta sẽ mã hóa AES từng khối với cùng một khóa mã hóa. 
 
 Minh họa ở hình vẽ sau :  
-![image](https://hackmd.io/_uploads/HJOYyYKLye.png)
+
+<img width="1909" height="769" alt="{05C816EE-DA32-4869-8CB0-A22C8B7B4650}" src="https://github.com/user-attachments/assets/bb7d02b1-44fb-43be-ad6e-13a08501134a" />
 
 
 Khi giải mã ta cũng sẽ làm tương tự với quá trình trên : 
