@@ -546,7 +546,9 @@ Minh họa ở hình vẽ sau :
 
 
 Khi giải mã ta cũng sẽ làm tương tự với quá trình trên : 
-![image](https://hackmd.io/_uploads/ByR_hiiO1l.png)
+
+<img width="1906" height="768" alt="{FCEFCF2C-A0B4-439E-B70C-45838D5F1AE8}" src="https://github.com/user-attachments/assets/083a89b4-2db7-4e3e-9532-ed13686a4b1c" />
+
 
 ECB không an toàn trong hầu hết các trường hợp sử dụng thực tế do những vấn đề sau:
 
@@ -555,7 +557,8 @@ ECB không an toàn trong hầu hết các trường hợp sử dụng thực t�
 - Vì mỗi khối được mã hóa độc lập, kẻ tấn công có thể sử dụng các phương pháp phân tích khối mã hóa để phá giải.
 - ECB không thêm bất kỳ yếu tố ngẫu nhiên nào vào quá trình mã hóa, dẫn đến tính bảo mật thấp khi dữ liệu có cấu trúc rõ ràng.
 
-Đây là một ví dụ minh họa về mã hóa ECB khi dùng để mã hóa hình ảnh. Có thể thấy từ hình ảnh mã hóa có thể dễ dàng đoán được hình ảnh gốc : 
+Đây là một ví dụ minh họa về mã hóa ECB khi dùng để mã hóa hình ảnh. Có thể thấy từ hình ảnh mã hóa có thể dễ dàng đoán được hình ảnh gốc :
+
 ![image](https://hackmd.io/_uploads/HkGjtLqI1x.png)
 
 
