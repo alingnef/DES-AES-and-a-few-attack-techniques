@@ -2068,7 +2068,8 @@ Ngoài ra cũng có thể xen kẽ $0$, $1$, $F$, $E$ :
 - `0xE1E1E1E1F0F0F0F0`
 - `0x1E1E1E1E0F0F0F0F`
 
-Khóa bán yếu trong DES là các khóa chỉ tạo ra **hai khóa** con khác nhau, mỗi khóa con được sử dụng lặp lại 8 lần trong thuật toán. Chúng thường tồn tại theo một cặp $(K1, K2)$ với tính chất : 
+Khóa bán yếu trong DES là các khóa chỉ tạo ra **hai khóa** con khác nhau, mỗi khóa con được sử dụng lặp lại 8 lần trong thuật toán. Chúng thường tồn tại theo một cặp $(K1, K2)$ với tính chất :
+
 $$
 E_{K_2}(E_{K_1}(Plaintext)) = Plaintext
 $$
@@ -2091,7 +2092,7 @@ Những khóa yếu và bán yếu này không được coi là lỗ hổng nghi
 Tuy nhiên, hiện nay DES không còn được khuyến nghị sử dụng vì toàn bộ không gian khóa có thể bị bẻ khóa bằng brute-force.
 
 # SYMMETRIC CIPHERS : Challenge CryptoHack
-E rằng nếu viết write-up của các challenge CryptoHack vào note này sẽ không đủ nên mình sẽ chuyển qua **[note](https://www.youtube.com/watch?v=0GeQVtZ6Rd4)** mới.
+Coming soon...
 
 
 
