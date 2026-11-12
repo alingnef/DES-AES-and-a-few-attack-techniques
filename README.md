@@ -182,7 +182,7 @@ $$
 C = E_{K_3}(D_{K_2}(E_{K_1}(P)))
 $$
 
-Và giải mã ta chỉ cần làm ngược lại : 
+- Và giải mã ta chỉ cần làm ngược lại : 
 
 $$
 P = D_{K_1}(E_{K_2}(D_{K_3}(C)))
@@ -324,8 +324,19 @@ d4 & 12 & a4 & 2d
 \end{bmatrix}_{\text{SubBytes}}
 $$
 
-Xét hàng : $\begin{bmatrix} 59 & 96 & 82 & a3 \end{bmatrix}$ : Hàng này là hàng đầu tiên nên không thay đổi.
-Với hàng : $\begin{bmatrix} 59 & 96 & 7d & 0d \end{bmatrix}$ : Dịch trái 1 phần tử, ta có hàng mới là:
+Xét hàng :
+
+$$
+\begin{bmatrix} 59 & 96 & 82 & a3 \end{bmatrix}
+$$
+
+Hàng này là hàng đầu tiên nên không thay đổi. Với hàng :
+
+$$
+\begin{bmatrix} 59 & 96 & 7d & 0d \end{bmatrix}
+$$
+
+Dịch trái 1 phần tử, ta có hàng mới là:
 
 $$
 \begin{bmatrix} 96 & 7d & 0d & 59 \end{bmatrix}
@@ -563,7 +574,7 @@ ECB không an toàn trong hầu hết các trường hợp sử dụng thực t�
 
 
 Đây là một ví dụ về code Python của mã hóa **ECB** : 
-```python=
+```python
 # khai báo các thư viện cần thiết cho AES, ECB
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
@@ -605,7 +616,7 @@ Cụ thể thì có thể xem ở đây : **[Initialization Vector.](https://en.
 Có thể thấy, từ khối ciphertext ban đầu ta có thể dễ dàng suy ra các khối phía sau. Tuy nhiên, ở khối ciphertext ban đầu, nếu ta chọn sai IV đầu vào thì khi giải mã ra khối plaintext đầu sẽ sai. 
 
 Code mẫu trong python:
-```python=
+```python
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 from Crypto.Random import get_random_bytes
@@ -981,16 +992,15 @@ class AES:
             previous = ciphertext_block
         return b''.join(blocks)
 ```
-:::
 
 Về cơ bản, ở đây challenge cho ta 3 option để tương tác với server. Khi nhìn vào source code `aes.py`, ta có thể thấy flag của chúng ta được mã hóa ở chế độ PCBC, và được giải mã ở chế độ CBC. Điều này có thể dẫn đến một lỗ hỏng bảo mật lớn mà ta sẽ khai thác.
 
 Hãy bắt đầu thao tác với server. Khi chọn option3, server sẽ trả cho ta flag đã được mã hóa dưới chế độ **PCBC**. 
-```python=
+```python
 enc_pcbc = '323eaa80f217bd129db30f0e06e6691561d3221eeceedf18499f3b5ac1ffb7b5c1d9b6a9eaf806e64167b808c3fccdf653206dce0748956f2ce3aff88115ce559b2b6dcdb59bda945064edad364b6f24cda39ab0f3d9b2f8e7a81973d12c7edd8a5a8a265f0c53bdaac60ac4ec07e38094214a222b8b237eded6f426fc405139e85563e9817f2ba79561a62ac2bd71493b84c9e5684021029a49842fe4de238689920f08df775d051aee77628b84b29b1c0491a347ec15d93220d881ad15b932175041d0c74d6447e030e2d51b662c76a56f52602230fed074c22324141dc26ae6327e73286c673b509a6024c2b1e89122bc4bfd1663d930fe1395de720aa8c93edc802c8116a5428e3d31a6b4fc94580a4688ebe0dbc887400a9cd1e0e71fe9065b2ff9957cd2b9f8ff2a9f8c9c31b689bda25e417f935c1e2a1d0f5a3ff915159d3466ac51feb8ada5833afdf2528432a2ddd71a9aa30c529d8c8cd22aeec5e85245950454a8e94311e9db18284304cef50503145877b214c3f0600404858ce3d16f86cb7f4bc672f04115a911c0ea4433b3070335e31d15d661e3b445b65a02069e67fa271e1c0a330c3bc12c986218ca8fc945183797011bb3ddfc9a008cdcfff0dd68c02fd3a92d06a9158e6214432921dc27c64aabb2cb18b82cfdf9906c855c0a40342e4270025203b696141478a15eacf1bf3b671877957ad26ab932e2b1cda811340f7441eddbb46b1d1f4308d1c942949ec5b3a093e9d64769301ebc22bd07096a1d9601ab80b8551a8b58131015c3dbf1d33e7d00c8d47d14fad6bf038a9d12de3bdea4415891dbdf05834001def8585b56e005df7468d94352a5'
 ```
 Và khi ta dùng `enc_pcbc` đưa vào hàm giải mã (option2) thì server sẽ trả về cho ta flag đã được giải mã ở mode **CBC** : 
-```python=
+```python
 dec_cbc = '4b4353437b50726f7061676174696e6714203a3313350030120d08021f360d0f3e0a071906022d77322f2d20420b0b0d3e191c061e063849242a2c247637011537150030120d08021f360d0f3e0a071906022d3010331f0f0a360d1c04111a360d0e2f07172d5d0e0d060d1f3a1b1c3e0a07190602291f5431300e043b063716081d360a02285b51333a0930100a001400062c013a00040602093b3c1c0e310404062c0c312c190909333c0a18090b151116271d312b1b37152d0c19110f0406113a111a3b1109361e1b1b150d1e3e030d3a07310000051b1719000c021e73280916312801090f2d18032b1e06024200041d3c051c1c18360f147128210b310f262c202d141f100c42384b3e2a0600322f2d20343200023a5c3304080d1c3a1a18300a180037290d15083e1e07000d2716301d1b002c27373a142d121f1d072a113004043e1d06113a08063a140500161800110205361a1c0027042d071a060c1e2c3e0d0d2f1c0d172b150a11290b031a10343c0b150e0a00113a1a11360c0b3006053c101c161b1701713d29000502001207171a263336263b4330280c473a3e19361d0636372b22330415051145300f31290c0d1d1b1b3e051a2514070c0b3136183a171c0a2d3900012c012c0708300a05712b3d0b330f02172c371d214030070e4d2d2c1e18000502001301016f00130c171a26041c0c310e31332c30313a141d2b21092b400c31001a0a0e1e1b1f0200362638005e0c0d1d1b1b48330a1b14070c1c313e1a093c16031d4a34103e1a153a03330005022b07141b3c1f1c000d03001303131b1b041156095c776c'
 ```
 
@@ -1003,7 +1013,7 @@ $$
 \text{blockFlag1 } \oplus \text{dec_cbc[32:64]} = \text{blockFlag2}
 $$
 
-```python=
+```python
 from pwn import xor
 dec_cbc = '4b4353437b50726f7061676174696e6714203a3313350030120d08021f360d0f3e0a071906022d77322f2d20420b0b0d3e191c061e063849242a2c247637011537150030120d08021f360d0f3e0a071906022d3010331f0f0a360d1c04111a360d0e2f07172d5d0e0d060d1f3a1b1c3e0a07190602291f5431300e043b063716081d360a02285b51333a0930100a001400062c013a00040602093b3c1c0e310404062c0c312c190909333c0a18090b151116271d312b1b37152d0c19110f0406113a111a3b1109361e1b1b150d1e3e030d3a07310000051b1719000c021e73280916312801090f2d18032b1e06024200041d3c051c1c18360f147128210b310f262c202d141f100c42384b3e2a0600322f2d20343200023a5c3304080d1c3a1a18300a180037290d15083e1e07000d2716301d1b002c27373a142d121f1d072a113004043e1d06113a08063a140500161800110205361a1c0027042d071a060c1e2c3e0d0d2f1c0d172b150a11290b031a10343c0b150e0a00113a1a11360c0b3006053c101c161b1701713d29000502001207171a263336263b4330280c473a3e19361d0636372b22330415051145300f31290c0d1d1b1b3e051a2514070c0b3136183a171c0a2d3900012c012c0708300a05712b3d0b330f02172c371d214030070e4d2d2c1e18000502001301016f00130c171a26041c0c310e31332c30313a141d2b21092b400c31001a0a0e1e1b1f0200362638005e0c0d1d1b1b48330a1b14070c1c313e1a093c16031d4a34103e1a153a03330005022b07141b3c1f1c000d03001303131b1b041156095c776c'
 
@@ -1014,7 +1024,7 @@ print(flag2)
 #output : b'_cipher_block_ch'
 ```
 Và cứ lặp lại quy trình như vậy, ta có : 
-```python=
+```python
 from pwn import xor
 
 enc_pcbc = '323eaa80f217bd129db30f0e06e6691561d3221eeceedf18499f3b5ac1ffb7b5c1d9b6a9eaf806e64167b808c3fccdf653206dce0748956f2ce3aff88115ce559b2b6dcdb59bda945064edad364b6f24cda39ab0f3d9b2f8e7a81973d12c7edd8a5a8a265f0c53bdaac60ac4ec07e38094214a222b8b237eded6f426fc405139e85563e9817f2ba79561a62ac2bd71493b84c9e5684021029a49842fe4de238689920f08df775d051aee77628b84b29b1c0491a347ec15d93220d881ad15b932175041d0c74d6447e030e2d51b662c76a56f52602230fed074c22324141dc26ae6327e73286c673b509a6024c2b1e89122bc4bfd1663d930fe1395de720aa8c93edc802c8116a5428e3d31a6b4fc94580a4688ebe0dbc887400a9cd1e0e71fe9065b2ff9957cd2b9f8ff2a9f8c9c31b689bda25e417f935c1e2a1d0f5a3ff915159d3466ac51feb8ada5833afdf2528432a2ddd71a9aa30c529d8c8cd22aeec5e85245950454a8e94311e9db18284304cef50503145877b214c3f0600404858ce3d16f86cb7f4bc672f04115a911c0ea4433b3070335e31d15d661e3b445b65a02069e67fa271e1c0a330c3bc12c986218ca8fc945183797011bb3ddfc9a008cdcfff0dd68c02fd3a92d06a9158e6214432921dc27c64aabb2cb18b82cfdf9906c855c0a40342e4270025203b696141478a15eacf1bf3b671877957ad26ab932e2b1cda811340f7441eddbb46b1d1f4308d1c942949ec5b3a093e9d64769301ebc22bd07096a1d9601ab80b8551a8b58131015c3dbf1d33e7d00c8d47d14fad6bf038a9d12de3bdea4415891dbdf05834001def8585b56e005df7468d94352a5'
@@ -1054,7 +1064,7 @@ Ngoài ra, một ưu điểm nữa là đầu vào của chúng ta là IV, một
 Tuy nhiên, CFB phụ thuộc vào cả plaintext và ciphertext trước đó. Nếu có bất kỳ lỗi nào xảy ra trong quá trình mã hóa, nó sẽ lan truyền qua các khối mã hóa sau đó. Điều này khiến CFB khó đồng bộ hóa lại nếu có lỗi hoặc mất dữ liệu, vì mỗi Ciphertext phụ thuộc vào Ciphertext trước đó. 
 
 Code ví dụ : 
-```python=
+```python
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 
@@ -1088,7 +1098,7 @@ Và vì phép XOR có tính chất : $A \oplus B = B \oplus A$ nên ta có quá 
 Nếu ở **Cipher Feedback (CFB)** quá trình mã hóa phụ thuộc vào cả plaintext và ciphertext trước đó, thì với **Output feedback (OFB)**, khối mã hóa đằng sau phụ thuộc vào keystream trước đó. Do đó, một lỗi trong quá trình mã hóa và giải mã sẽ chỉ ảnh hưởng đến khối mã hóa hiện tại và không lan truyền cho các khối sau.
 
 Code mẫu : 
-```python=
+```python
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 
@@ -1139,7 +1149,7 @@ Giải mã :
 ![image](https://hackmd.io/_uploads/Sy_HE8Zvkl.png)
 
 Code mẫu : 
-```python=
+```python
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 from Crypto.Util import Counter
@@ -1162,7 +1172,7 @@ print(decrypt)
 ```
 
 Ta có một challenge như sau : **Super Secure Encryption - ACECTF2025**
-```python=
+```python
 from Crypto.Cipher import AES
 from Crypto.Util import Counter
 import os
@@ -1191,7 +1201,7 @@ with open('msg.txt', 'w+') as o:
 #encrypted_flag : c234661fa5d63e627bef28823d052e95f65d59491580edfa1927364a5017be9445fa39986859a3'''
 ```
 Nhìn vào Source code, ta có thể thấy ở đoạn này : 
-```python=
+```python
 k = os.urandom(16) # Is it too short?
 cipher = AES.new(k, AES.MODE_CTR, counter=Counter.new(128)) # I was told, CTR can't be broken!
 ```
@@ -1226,7 +1236,7 @@ $$
 $$
 
 Với việc biết trước được `msg` nên khi này ta có thể tìm lại `flag` một cách dễ dàng.
-```python=
+```python
 from pwn import xor 
 
 encrypted_msg = bytes.fromhex("d71f4a2fd1f9362c21ad33c7735251d0a671185a1b90ecba27713d350611eb8179ec67ca7052aa8bad60466b83041e6c02dbfee738c2a3")
@@ -1347,7 +1357,7 @@ Một sơ đồ khá trực quan và đầy đủ, trong đó :
 - AD là Additional Data, cái này không quan trọng lắm nhưng mà nó cũng sẽ ảnh hưởng tới tag. (Challenge dưới sẽ không dùng tới cái này).
 
 Xét một ví dụ sau : Một challenge từ giải **UTCTF 2020**
-```python=
+```python
 import sys
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
@@ -1425,7 +1435,7 @@ Về cơ bản thì flag của ta đã được mã hóa theo **AES_MODE-GCM** c
 Tưởng sẽ chẳng có vấn đề gì nhưng nó lại mắc sai lầm y chang như challenge ví dụ của CTR mà mình có ghi ở trên. Đó là **keystream** không đổi trong suốt quá trình mã hóa các block. 
 
 Và thế là ta hòan toàn có thể áp dụng lại cách cũ đển tấn công được rồi!!
-```python=
+```python
 from pwn import xor
 msg = b''
 enc_msg = bytes.fromhex('')
@@ -1445,7 +1455,8 @@ Meet in the middle có thể tấn công cả 2DES và 3DES hoặc kể cả AES
 
 Chúng ta sẽ nghiên cứu về cách tấn công **Meet in the middle** đối với 2DES.
 
-Ta có công thức mã hóa và giải mã 2DES như sau : 
+Ta có công thức mã hóa và giải mã 2DES như sau :
+
 $$
 C = E_{K_2}(E_{K_1}(P))
 $$
@@ -1454,7 +1465,8 @@ $$
 P = D_{K_1}(D_{K_2}(C))
 $$
 
-Đầu tiên, ta sẽ giải mã $C$ lần thứ nhất với khóa $K_2$ : 
+Đầu tiên, ta sẽ giải mã $C$ lần thứ nhất với khóa $K_2$ :
+
 $$
 D_{K_2}(C) = D_{K_2}(E_{K_2}(E_{K_1}(P))) = E_{K_1}(P)
 $$
@@ -1464,7 +1476,7 @@ Khi này ta sẽ brute-force $K_1$ rồi thêm các $E_{K_1}(P)$ vào 1 list, sa
 - Nếu không sử dụng MITM, khi này chúng ta sẽ phải brute-force lên tới $2^{112}$ bước, trong khi ta chỉ cần có $2 \times 2^{56} = 2^{57}$ bước brute-force khi dùng MITM.
 
 Xét ví dụ sau : 
-```python=
+```python
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 from hashlib import md5
@@ -1488,7 +1500,8 @@ print(enc.hex())
 
 Ở đây flag của ta được mã hóa hai lần **AES_MODE-ECB** với khóa có độ dài là `128 bits`.
 
-Khóa của ta được tạo nên từ `md5(urandom(3)).digest()`, chỉ có 3 bytes nên không gian của khóa có thể brute-force được sẽ là : 
+Khóa của ta được tạo nên từ `md5(urandom(3)).digest()`, chỉ có 3 bytes nên không gian của khóa có thể brute-force được sẽ là :
+
 $$
 2^{8\times 3}\times 2^{8\times 3}=2^{8\times 3\times 2}=2^{48}=281.474.976.710.656 \text{ khóa}
 $$
@@ -1498,7 +1511,7 @@ $$
 Có thể thấy, đây là một dạng mã hóa tương đương **2DES**, nhưng ở đây là dạng mã hóa **AES_MODE-ECB** được mã hóa hai lần. Điều đó là ta nghĩ ngay đến kiểu tấn công MITM ở trên (vì nó được mã hóa **CHẴN** lần)
 
 Đề có cho ta `hint` của bài là :  
-```python=
+```python
 assert len(FLAG) % 16 == 1 # hint
 ```
 
@@ -1510,14 +1523,15 @@ Ta biết được `len(enc) = 48 bytes`, trừ đi **15 bytes** padding nữa l
 
 Ta không biết được khối flag đầu tiên, nhưng ta biết được khối cuối cùng là `}\x0f\x0f...` (được padding theo chuẩn **PKCS#7**)
 
-Như vậy, bây giờ ta sẽ brute-force khóa `key1` và mã hoá khối này, lưu tất cả vào một list, rồi sau đó sẽ brute-force `key2` để giải mã khối `enc[-16:]`. Nếu như : 
+Như vậy, bây giờ ta sẽ brute-force khóa `key1` và mã hoá khối này, lưu tất cả vào một list, rồi sau đó sẽ brute-force `key2` để giải mã khối `enc[-16:]`. Nếu như :
+
 $$
 D_{K_2}(C)=E_{K_1}(P)
 $$
 
 thì ta sẽ có được hai khóa `key1`, `key2`. Như vậy là giải mã được rồi!!
 
-```python=
+```python
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 from hashlib import md5
@@ -1554,7 +1568,7 @@ for test in trange(2**24):
         break
 ```
 Có được `key1` và `key2` là ta có thể giải mã được rồi
-```python=
+```python
 from Crypto.Cipher import AES
 
 enc = bytes.fromhex("21477fac54cb5a246cb1434a1e39d7b34b91e5c135cd555d678f5c01b2357adc0c6205c3a4e3a8e6fb37c927de0eec95")
@@ -1604,7 +1618,8 @@ Tính byte cuối của $IV'$ thì ta sẽ thế $p16 = 02$ và lấy $02 \oplus
 
 ![{2053CF5E-031A-4296-A4AF-574536273F2B}](https://hackmd.io/_uploads/By1OCOlF1e.png)
 
-Ta có byte thứ 15 của $IV'$ là `18`, từ đây ta tính được byte `d15` và `p15` theo như cách tính bên trên : 
+Ta có byte thứ 15 của $IV'$ là `18`, từ đây ta tính được byte `d15` và `p15` theo như cách tính bên trên :
+
 $$
 d15 = 18 \oplus 02 = 1a
 $$
@@ -1616,6 +1631,7 @@ $$
 Và bây giờ để tính tiếp byte `p14` ta cũng sẽ làm tương tự : tìm 3 byte cuối của $IV'$ sao cho khi $\oplus$ với 3 byte cuối của **DecryptedText** ra được 3 byte `03`.
 
 ![{2D365A63-4172-4060-96F1-EF1349D3BBE3}](https://hackmd.io/_uploads/r1LONKeK1l.png)
+
 $$
 d14 = 68 \oplus 03 = 6b
 $$
@@ -1652,7 +1668,7 @@ Tìm hiểu lại về ECB :
 - Tuy nhiên, nếu như độ dài của nó chỉ có **31 bytes** thôi thì sao??? `aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa`. Khi này muốn mã hóa nó bằng ECB thì ta sẽ phải Padding thêm **1 byte** vào để đủ độ dài **32 bytes** rồi mới mã hóa được. Ở đây mình sẽ thêm vào byte `\x01` và ta có `aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\x01`. Như vậy là có thể mã hóa được rồi. 
 
 Được rồi, đó là hình dung lại các ECB hoạt động. Bây giờ ta sẽ vào phần chính : **How to attack?**. Cho source code : 
-```python=
+```python
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 
@@ -1686,7 +1702,8 @@ Tách nó ra làm các khối có độ dài **16 bytes** ta có :
 
 Khi này do khối thứ 2 chỉ dài **11 bytes** nên ta sẽ Padding thêm **5 bytes** bất kì nữa vào. Ta sẽ có : `>>>>>>>>>>>>>>>>` `crypto{ECB}11111`
 
-Đó là cách hoạt động của ECB, vậy nếu như mình **thay đổi một chút về Input** như : 
+Đó là cách hoạt động của ECB, vậy nếu như mình **thay đổi một chút về Input** như :
+
 ![{F688ADCF-9FC6-4FEB-B170-255678A57854}](https://hackmd.io/_uploads/SJtFUDmFyg.png)
 
 >Ở đây thay vì mình ghi thành dòng thì mình sẽ xếp nó thành một khối 3 dòng, 1 dòng như vậy sẽ là một khối dữ liệu dài **16 bytes**. 
@@ -1696,7 +1713,8 @@ Ta có thấy trong khối này có 3 thứ :
 - Flag : `crypto{ECB}`
 - Padding : `1111111111111`
 
-Có thể thấy rằng, dòng 1 và dòng 2 của chúng ta khá là giống nhau, chỉ khác nhau ở chữ $E$. Vậy nếu như bây giờ ta thay đổi Input lại thêm lần nữa thành : 
+Có thể thấy rằng, dòng 1 và dòng 2 của chúng ta khá là giống nhau, chỉ khác nhau ở chữ $E$. Vậy nếu như bây giờ ta thay đổi Input lại thêm lần nữa thành :
+
 ![{0C0968C9-46FE-46B6-B3A5-A2782CEB0252}](https://hackmd.io/_uploads/ryDiLD7t1e.png)
 
 Byte **"?"** ở đây là byte mà ta sẽ nhập vào và kiểm tra xem ở byte nào thì dòng 1 sẽ bằng dòng 2. Tức là Brute-force byte **"?"** cho tới khi nào khối 1 = khối 2 
@@ -1704,33 +1722,42 @@ Byte **"?"** ở đây là byte mà ta sẽ nhập vào và kiểm tra xem ở b
 
 Khi mà tìm thấy được byte **"?"** sao cho khối 1 = khối 2, ta sẽ giữ byte đó lại (tức là + byte đó vào input của chúng ta)
 
-Sau khi Brute-force như vậy, ta sẽ **dịch trái toàn bộ khối**, tức là thay đổi Input để thực hiện việc Brute-force tiếp theo : 
+Sau khi Brute-force như vậy, ta sẽ **dịch trái toàn bộ khối**, tức là thay đổi Input để thực hiện việc Brute-force tiếp theo :
+
 ![{6D72461C-50B9-4A32-95E0-B0A4195078E1}](https://hackmd.io/_uploads/HJGjxi7YJe.png)
 
 
-Cứ như thế, cho đến khi nào không thể tìm ra được thêm kí tự nào trong Flag nữa thì sẽ dừng lại và in ra Flag. 
+Cứ như thế, cho đến khi nào không thể tìm ra được thêm kí tự nào trong Flag nữa thì sẽ dừng lại và in ra Flag.
+
 ![{62F70417-89D6-40ED-9622-53D384BFDEBF}](https://hackmd.io/_uploads/HJ0EWjmF1g.png)
 
 Tới đây là có vẻ ổn rồi đấy. Thế nhưng có một vấn đề được đặt ra thế này : Nếu như Flag của chúng ta có độ dài bằng **16 bytes** hoặc hơn **16 bytes** thì sao ???
 
-Thật ra, các bytes **">"** tồn tại như vậy là có mục đích của nó. Việc ta nhập các bytes này mục đích là để tạo ra khoảng trống đủ giữa flag và byte mà ta sẽ brute-force. Hãy nhìn vào khối này : 
+Thật ra, các bytes **">"** tồn tại như vậy là có mục đích của nó. Việc ta nhập các bytes này mục đích là để tạo ra khoảng trống đủ giữa flag và byte mà ta sẽ brute-force. Hãy nhìn vào khối này :
+
 ![{C9B3FD78-1591-4617-A322-6212231F393F}](https://hackmd.io/_uploads/BkgG0o7tJl.png)
 
 Flag của chúng ta là `crypto{abcdefgh}` có độ dài là **16 bytes**. Khi ta brute-force bytes thì ta sẽ có : 
+
 ![{199D2DFD-4A00-450D-BD61-E657D73034B9}](https://hackmd.io/_uploads/ryuFAjQK1x.png)
 
 Nó có vẻ chả có vấn đề gì cả. Cả 2 khối đều bằng nhau và bằng đúng **16 bytes**. Thế nhưng, giả sử flag của chúng ta là : `crypto{ECBmakesmecry}` có độ dài **21 bytes**, ta sẽ có khối dữ liệu như sau : 
+
 ![{66567AC6-C27D-4418-9238-D795761DC467}](https://hackmd.io/_uploads/BkC-k27Ykx.png)
 
 Vẫn là cách làm như trên, ta sẽ có : 
+
 ![{2F8C5339-6BFC-4D55-A4E6-D010176E646F}](https://hackmd.io/_uploads/B16vy2QFyx.png)
 
 Có thể thấy rằng, khi flag dài hơn **16 bytes** ta không thể brute-force tiếp được vì khối 1 không thể lùi thêm được nữa, trong khi đó vẫn còn một phần của flag nằm ở khối 3. Điều đó đã cho ta thấy ý nghĩa tồn tại cuả byte **">"**. Chính vì vậy ta cần phải thay đổi Input lại sao cho có một khoảng trống đủ nhiều giữa 2 khối brute-force và flag. 
+
 ![{B7E8B21B-CF59-47EC-AC8F-DFD9C7AE99BC}](https://hackmd.io/_uploads/HkBZM3XKye.png)
 
 Như vậy là có đủ khoảng trống để ta brute-force, việc còn lại là brute tới chếc thôi.
+
 ![{63C36D84-DC15-4948-BE39-E76B03D5D7AA}](https://hackmd.io/_uploads/HJEnzh7YJl.png)
-```python=
+
+```python
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 import os
@@ -1775,7 +1802,8 @@ bruteforce()
 
 ## Key-Recovery Attacks on GCM with Repeated Nonces
 
-Có một vấn đề là ta không bao giờ được phép sử dụng lại những **nonces** mà được dùng đề tạo ra **"tag"** hoặc là mã hóa, bởi lẽ việc dùng lại những **nonce** đó vô hình chung sẽ tạo ra những **keystream** giống nhau dẫn đến việc : 
+Có một vấn đề là ta không bao giờ được phép sử dụng lại những **nonces** mà được dùng đề tạo ra **"tag"** hoặc là mã hóa, bởi lẽ việc dùng lại những **nonce** đó vô hình chung sẽ tạo ra những **keystream** giống nhau dẫn đến việc :
+
 $$
 \begin{cases}
 ct1=pt1\oplus keystream\\
@@ -1791,7 +1819,8 @@ Ta sẽ có thể dễ dàng khôi phục lại Flag nếu như ta biết đư�
 
 Ngoài ra, bên cạnh việc mã hóa có thể bị phá thì nó còn gây mất bảo mật về mặt xác thực (Authentication) và phục hồi khóa con $H$ cho hàm băm **GHASH** : 
 - Ta có công thức tính **"tag"** là : $t=AES_k(J_0)\oplus f_{A,C}(H)$
-- Khi nonce bị tái sử dụng giữa hai Plaintext $(A_1, C_1, T_1)$ và $(A_2, C_2, T_2)$, ta biết rằng giá trị $AES_k(J_0)$ là không đổi nên khi thực hiện phép XOR ta có : 
+- Khi nonce bị tái sử dụng giữa hai Plaintext $(A_1, C_1, T_1)$ và $(A_2, C_2, T_2)$, ta biết rằng giá trị $AES_k(J_0)$ là không đổi nên khi thực hiện phép XOR ta có :
+
 $$
 t_1\oplus t_2=f_{A_1,C_1}(H)\oplus f_{A_2,C_2}(H)
 $$
@@ -1801,7 +1830,7 @@ Phương trình này trở thành một đa thức tuyến tính theo $H$, và k
 Hậu quả của việc bị lộ $H$ là rất nghiêm trọng. Ta biết rằng $H=AES_k(0^{128})$, với khóa $k$ là bí mật, kẻ tấn công có thể lợi dụng việc bị lộ $H$ để tạo ra các **"tag"** giả mạo với công thức tính "tag" ở trên, từ đó khiến cho tính xác thực (Authentication) trở nên vô dụng. 
 
 Ta có một ví dụ như sau : 
-```python=
+```python
 import sys
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
@@ -1906,7 +1935,8 @@ for b in bs:
 - Khi đó ta sẽ có **tag** là : $t=g+s$
 
 
-Tag của chúng ta sẽ đuợc biểu diễn dưới dạng đa thức sau : 
+Tag của chúng ta sẽ đuợc biểu diễn dưới dạng đa thức sau :
+
 $$
 t_1=(((((((((((H * AD0) + AD1) * H) + C0) * H) + C1) * H) + C2) * H) + len) * H) + s
 $$
